@@ -1,6 +1,9 @@
-const Persona = require("./persona");
+const GenerationEngine = require("./engine");
 
-const newPersona = new Persona({ birthDate: new Date(), nickname: "fooey" });
-const baloo = new Persona({ birthDate: new Date(), nickname: "baloo" });
+const engine = new GenerationEngine();
 
-console.log(newPersona, baloo);
+engine.start();
+
+setTimeout(() => {
+  engine.stop;
+}, 20000);

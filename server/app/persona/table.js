@@ -31,5 +31,31 @@ class PersonaTable {
       );
     });
   }
+
+  static getPersona({ personaId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `SELECT birthdate, nickname, "generationId"
+        FROM persona
+        WHERE persona.id = $1
+        `,
+        [personaId],
+        (error, response) => {
+          if (error) return reject(error);
+          if (response.rows.length === 0) {
+            return reject(new Error("no persona"));
+          }
+
+          resolve(response.rows[0]);
+        }
+      );
+    });
+  }
 }
+
+///////debug
+// PersonaTable.getPersona({ personaId: 46 })
+//   .then((persona) => console.log(persona))
+//   .catch((error) => console.log("error", error));
+
 module.exports = PersonaTable;

@@ -1,6 +1,7 @@
 const TRAITS = require("../../data/traits.json");
 
 const DEFAULT_PROPERTIES = {
+  personaId: undefined,
   nickname: "unnamed",
   generationId: undefined,
   get birthDate() {
@@ -21,7 +22,8 @@ const DEFAULT_PROPERTIES = {
 };
 
 class Persona {
-  constructor({ birthDate, nickname, traits, generationId } = {}) {
+  constructor({ personaId, birthDate, nickname, traits, generationId } = {}) {
+    this.personaId = personaId || DEFAULT_PROPERTIES.personaId;
     this.birthDate = birthDate || DEFAULT_PROPERTIES.birthDate;
     this.nickname = nickname || DEFAULT_PROPERTIES.nickname;
     this.traits = traits || DEFAULT_PROPERTIES.randomTraits;

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin bash
 
 export PGPASSWORD = "postgres123"
 
@@ -8,4 +8,6 @@ createdb -U postgres dragonstackdb
 
 psql -U postgres dragonstackdb < ./bin/sql/generation.sql
 psql -U postgres dragonstackdb < ./bin/sql/dragon.sql
+psql -U postgres dragonstackdb < ./bin/sql/trait.sql
+psql -U postgres dragonstackdb < ./bin/sql/personatrait.sql
 echo " dragonstackdb configured"

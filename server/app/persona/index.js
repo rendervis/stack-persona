@@ -1,4 +1,5 @@
 const TRAITS = require("../../data/traits.json");
+
 const DEFAULT_PROPERTIES = {
   nickname: "unnamed",
   generationId: undefined,
@@ -7,13 +8,14 @@ const DEFAULT_PROPERTIES = {
   },
   get randomTraits() {
     const traits = [];
-    traits.forEach((TRAIT) => {
+    TRAITS.forEach((TRAIT) => {
       const traitType = TRAIT.type;
       const traitValues = TRAIT.values;
       const traitValue =
         traitValues[Math.floor(Math.random() * traitValues.length)];
       traits.push({ traitType, traitValue });
     });
+
     return traits;
   },
 };

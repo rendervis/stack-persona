@@ -8,6 +8,9 @@ class Generation {
     this.expiration = this.calculateExpiration();
     this.generationId = undefined;
   }
+  setId(generationId) {
+    this.generationId = generationId;
+  }
 
   calculateExpiration() {
     const expirationPeriod = Math.floor(Math.random() * (refreshRate / 2));

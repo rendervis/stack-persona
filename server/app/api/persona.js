@@ -3,16 +3,16 @@ const PersonaTable = require("../persona/table");
 
 const router = new Router();
 
-router.get("/new", (req, res) => {
-  const persona = req.app.locals.engine.generation.newPersona();
-
+router.get("/new", (req, res, next) => {
+  let persona = req.app.locals.engine.generation.newPersona();
   PersonaTable.storePersona(persona)
     .then(({ personaId }) => {
-      console.log("personaId", personaId);
+      console.log("router.get(/new ", personaId);
       persona.personaId = personaId;
       res.json({ persona });
     })
-    .catch((error) => console.error(error));
+
+    .catch((error) => next(error));
 });
 
 module.exports = router;

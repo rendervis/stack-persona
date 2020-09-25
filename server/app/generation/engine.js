@@ -18,8 +18,8 @@ class GenerationEngine {
 
     GenerationTable.storeGeneration(generation)
       .then(({ generationId }) => {
+        generation.setId(generationId);
         this.generation = generation;
-        this.generation.generationId = generationId;
 
         console.log("new generation", this.generation);
         this.timer = setTimeout(

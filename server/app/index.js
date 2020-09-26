@@ -1,6 +1,8 @@
 const express = require("express");
+const cors = require("cors");
+
 const GenerationEngine = require("./generation/engine");
-// const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 
 ///////router
 const personaRouter = require("./api/persona");
@@ -9,9 +11,14 @@ const generationRouter = require("./api/generation");
 const app = express();
 const engine = new GenerationEngine();
 app.locals.engine = engine;
-// app.use(bodyParser.json());
+// app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:1234",
+  optionsSuccessStatus: 200,
+};
+app.use(bodyParser.json());
 
-app.use("/generation", generationRouter);
+app.use("/generation", cors(corsOptions), generationRouter);
 app.use("/persona", personaRouter);
 
 app.use((err, req, res, next) => {

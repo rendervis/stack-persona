@@ -1,0 +1,23 @@
+body {
+  text-align: center;
+  margin: 10%;
+  font-size: 20px;
+}
+
+.persona-avatar-image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.persona-avatar-image {
+  z-index: 0;
+}
+
+.persona-avatar-image-pattern {
+  position: absolute;
+}
+
+.persona-avatar-image-background {
+  position: absolute;
+}

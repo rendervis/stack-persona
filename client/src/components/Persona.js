@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+import { Button } from "react-bootstrap";
+import PersonaAvatar from "./PersonaAvatar";
+
 const DEFAULT_PERSONA = {
   personaId: "",
   generationId: "",
@@ -29,12 +32,16 @@ class Persona extends Component {
 
   render() {
     const { generationId, personaId, traits } = this.state.persona;
-    console.log(traits);
+    // console.log(traits);
     return (
       <div>
         <span>P{generationId}.</span>
         <span>I{personaId}.</span>
         {traits.map((trait) => trait.traitValue).join(", ")}
+        <br />
+        <Button onClick={this.fetchPersona}>New Persona</Button>
+        <br />
+        <PersonaAvatar persona={this.state.persona} />
       </div>
     );
   }

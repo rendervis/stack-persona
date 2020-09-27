@@ -6,6 +6,7 @@
 /client/secrets
 /client/.cache
 /client/dist
+/client/src/assets
 /server/node_modules
 /server/secrets
 

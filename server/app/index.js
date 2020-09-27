@@ -19,7 +19,7 @@ const corsOptions = {
 app.use(bodyParser.json());
 
 app.use("/generation", cors(corsOptions), generationRouter);
-app.use("/persona", personaRouter);
+app.use("/persona", cors(corsOptions), personaRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

@@ -1,0 +1,35 @@
+import { GENERATION } from "./types";
+
+// export const generationActionCreator = (payload) => {
+//   return {
+//     type: GENERATION.FETCH,
+//     generation: payload,
+//   };
+// };
+
+export const fetchGeneration = () => (dispatch) => {
+  dispatch({
+    type: GENERATION.FETCH,
+  });
+  return fetch("http://localhost:3030/generation")
+    .then((response) => response.json())
+    .then((json) => {
+      if (json.type === "error") {
+        dispatch({
+          type: GENERATION.FETCH_ERROR,
+          message: json.message,
+        });
+      } else {
+        dispatch({
+          type: GENERATION.FETCH_SUCCESS,
+          generation: json.generation,
+        });
+      }
+    })
+    .catch((error) =>
+      dispatch({
+        type: GENERATION.FETCH_ERROR,
+        message: error.message,
+      })
+    );
+};

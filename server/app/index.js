@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 ///////router
 const personaRouter = require("./api/persona");
 const generationRouter = require("./api/generation");
+const accountRouter = require("./api/account");
 
 const app = express();
 const engine = new GenerationEngine();
@@ -18,6 +19,7 @@ const corsOptions = {
 };
 app.use(bodyParser.json());
 
+app.use("/account", cors(corsOptions), accountRouter);
 app.use("/generation", cors(corsOptions), generationRouter);
 app.use("/persona", cors(corsOptions), personaRouter);
 

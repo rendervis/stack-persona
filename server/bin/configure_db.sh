@@ -10,4 +10,5 @@ psql -U postgres dragonstackdb < ./bin/sql/generation.sql
 psql -U postgres dragonstackdb < ./bin/sql/dragon.sql
 psql -U postgres dragonstackdb < ./bin/sql/trait.sql
 psql -U postgres dragonstackdb < ./bin/sql/personatrait.sql
+psql -U postgres dragonstackdb < ./bin/sql/account.sql
 echo " dragonstackdb configured"

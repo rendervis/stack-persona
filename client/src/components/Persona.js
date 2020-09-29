@@ -1,37 +1,29 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import { fetchPersona } from "../actions/persona";
 
 import { Button } from "react-bootstrap";
 import PersonaAvatar from "./PersonaAvatar";
 
-const DEFAULT_PERSONA = {
-  personaId: "",
-  generationId: "",
-  nickname: "",
-  birthdate: "",
-  traits: [],
-};
 class Persona extends Component {
-  state = {
-    persona: DEFAULT_PERSONA,
-  };
+  // componentDidMount() {
+  //   this.fetchPersona();
+  // }
 
-  componentDidMount() {
-    this.fetchPersona();
-  }
-
-  fetchPersona = () => {
-    fetch("http://localhost:3030/persona/new")
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        this.setState({ persona: json.persona });
-      })
-      .catch((error) => console.log("error", error));
-  };
+  // fetchPersona = () => {
+  //   fetch("http://localhost:3030/persona/new")
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((json) => {
+  //       this.setState({ persona: json.persona });
+  //     })
+  //     .catch((error) => console.log("error", error));
+  // };
 
   render() {
-    const { generationId, personaId, traits } = this.state.persona;
+    const { generationId, personaId, traits } = this.props.persona;
     // console.log(traits);
     return (
       <div>
@@ -39,12 +31,17 @@ class Persona extends Component {
         <span>I{personaId}.</span>
         {traits.map((trait) => trait.traitValue).join(", ")}
         <br />
-        <Button onClick={this.fetchPersona}>New Persona</Button>
+        <Button onClick={this.props.fetchPersona}>New Persona</Button>
         <br />
-        <PersonaAvatar persona={this.state.persona} />
+        <PersonaAvatar persona={this.props.persona} />
       </div>
     );
   }
 }
 
-export default Persona;
+const mapStateToProps = (state) => {
+  return {
+    persona: state.persona,
+  };
+};
+export default connect(mapStateToProps, { fetchPersona })(Persona);

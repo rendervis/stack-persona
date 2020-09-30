@@ -30,6 +30,7 @@ router.post("/signup", (req, res, next) => {
     })
     .then(({ message }) => {
       ///////respond to client
+      console.log({ message });
       res.json({ message });
     })
     .catch((error) => next(error));

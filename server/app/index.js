@@ -17,6 +17,7 @@ app.locals.engine = engine;
 const corsOptions = {
   origin: "http://localhost:1234",
   optionsSuccessStatus: 200,
+  credentials: true,
 };
 app.use(bodyParser.json());
 app.use(cookieParser());

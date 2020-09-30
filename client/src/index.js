@@ -6,8 +6,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 
-import Generation from "./components/Generation";
-import Persona from "./components/Persona";
+import Root from "./components/Root";
 import "./index.css";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -19,11 +18,7 @@ const store = createStore(
 
 render(
   <Provider store={store}>
-    <div>
-      <h2>Persona Stack from REACT!</h2>
-      <Generation />
-      <Persona />
-    </div>
+    <Root />
   </Provider>,
   document.getElementById("root")
 );

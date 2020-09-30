@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 const GenerationEngine = require("./generation/engine");
-const bodyParser = require("body-parser");
 
 ///////router
 const personaRouter = require("./api/persona");
@@ -18,6 +19,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use("/account", cors(corsOptions), accountRouter);
 app.use("/generation", cors(corsOptions), generationRouter);

@@ -43,3 +43,16 @@ export const logout = () =>
     },
     SUCCESS_TYPE: ACCOUNT.FETCH_LOGOUT_SUCCESS,
   });
+
+export const login = ({ userName, password }) =>
+  fetchFromAccount({
+    endpoint: "login",
+    options: {
+      method: "POST",
+      body: JSON.stringify({ userName, password }),
+      headers: { "Content-Type": "application/json" },
+      ///////store Session cookie on the browser
+      credentials: "include",
+    },
+    SUCCESS_TYPE: ACCOUNT.FETCH_SUCCESS,
+  });

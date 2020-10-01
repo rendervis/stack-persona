@@ -5,7 +5,9 @@ export const fetchPersona = () => (dispatch) => {
   dispatch({
     type: PERSONA.FETCH,
   });
-  return fetch(`${BACKEND.ADDRESS}/persona/new`)
+  return fetch(`${BACKEND.ADDRESS}/persona/new`, {
+    credentials: "include",
+  })
     .then((response) => response.json())
     .then((json) => {
       if (json.type === "error") {

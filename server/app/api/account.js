@@ -1,9 +1,9 @@
 const { Router } = require("express");
-const AccounTable = require("../account/table");
+const AccountTable = require("../account/table");
 const Session = require("../account/session");
 const { hash } = require("../account/helper");
 
-const { setSession } = require("./helper");
+const { setSession, authenticatedAccount } = require("./helper");
 
 const router = new Router();
 
@@ -13,11 +13,11 @@ router.post("/signup", (req, res, next) => {
   const passwordHash = hash(password);
 
   ///check if the Account exists
-  AccounTable.getAccount({ userNameHash })
+  AccountTable.getAccount({ userNameHash })
     .then(({ account }) => {
       if (!account) {
         ///////add Account
-        return AccounTable.storeAccount({ userNameHash, passwordHash });
+        return AccountTable.storeAccount({ userNameHash, passwordHash });
       } else {
         const error = new Error(`This username  has already been taken.`);
         error.statusCode = 409;
@@ -38,7 +38,7 @@ router.post("/signup", (req, res, next) => {
 
 router.post("/login", (req, res, next) => {
   const { userName, password } = req.body;
-  AccounTable.getAccount({ userNameHash: hash(userName) })
+  AccountTable.getAccount({ userNameHash: hash(userName) })
     .then(({ account }) => {
       if (account && account.passwordHash === hash(password)) {
         const { sessionId } = account;
@@ -55,7 +55,7 @@ router.post("/login", (req, res, next) => {
 
 router.get("/logout", (req, res, next) => {
   const { userName } = Session.parse(req.cookies.sessionString);
-  AccounTable.updateSessionId({
+  AccountTable.updateSessionId({
     sessionId: null,
     userNameHash: hash(userName),
   })
@@ -64,5 +64,29 @@ router.get("/logout", (req, res, next) => {
       res.json({ message: "Successful logout" });
     })
     .catch((error) => next(error));
+});
+
+router.get("/authenticated", (req, res, next) => {
+  const { sessionString } = req.cookies;
+
+  authenticatedAccount({ sessionString })
+    .then(({ authenticated }) => res.json({ authenticated }))
+    .catch((error) => next(error));
+
+  ///////moved to /api/helper authenticatedAccount
+  // if (!sessionString || !Session.verify(sessionString)) {
+  //   const error = new Error("Invalid session");
+  //   error.statusCode = 400;
+  //   return next(error);
+  // } else {
+  //   const { userName, id } = Session.parse(sessionString);
+  //   AccountTable.getAccount({ userNameHash: hash(userName) })
+  //     .then(({ account }) => {
+  //       const authenticated = account.sessionId === id;
+
+  //       res.json({ authenticated });
+  //     })
+  //     .catch((error) => next(error));
+  // }
 });
 module.exports = router;

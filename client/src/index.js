@@ -7,6 +7,7 @@ import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 
 import Root from "./components/Root";
+import { fetchAuthenticated } from "./actions/account";
 import "./index.css";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -16,9 +17,11 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-render(
-  <Provider store={store}>
-    <Root />
-  </Provider>,
-  document.getElementById("root")
-);
+store.dispatch(fetchAuthenticated()).then(() => {
+  render(
+    <Provider store={store}>
+      <Root />
+    </Provider>,
+    document.getElementById("root")
+  );
+});

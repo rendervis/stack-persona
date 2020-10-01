@@ -56,3 +56,13 @@ export const login = ({ userName, password }) =>
     },
     SUCCESS_TYPE: ACCOUNT.FETCH_SUCCESS,
   });
+
+export const fetchAuthenticated = () =>
+  fetchFromAccount({
+    endpoint: "authenticated",
+    options: {
+      ///////store Session cookie on the browser
+      credentials: "include",
+    },
+    SUCCESS_TYPE: ACCOUNT.FETCH_AUTHENTICATED_SUCCESS,
+  });

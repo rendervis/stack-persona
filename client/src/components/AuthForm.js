@@ -10,6 +10,7 @@ class AuthForm extends Component {
   state = {
     userName: "",
     password: "",
+    buttonClicked: false,
   };
 
   updateUserName = (event) => {
@@ -24,16 +25,21 @@ class AuthForm extends Component {
   };
 
   signUp = () => {
+    this.setState({ buttonClicked: true });
     const { userName, password } = this.state;
     this.props.signUpAction({ userName, password });
   };
   logIn = () => {
+    this.setState({ buttonClicked: true });
     const { userName, password } = this.state;
     this.props.login({ userName, password });
   };
 
   get Error() {
-    if (this.props.account.status === fetchStates.error) {
+    if (
+      this.state.buttonClicked &&
+      this.props.account.status === fetchStates.error
+    ) {
       return <div>{this.props.account.message}</div>;
     }
   }

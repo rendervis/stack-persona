@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import Generation from "./Generation";
 import Persona from "./Persona";
-import AccountPersonas from "./AccountPersonas";
 
 import { logout } from "../actions/account";
 import { Button } from "react-bootstrap";
@@ -18,8 +18,8 @@ class Home extends Component {
         <h2>Persona Stack from REACT!</h2>
         <Generation />
         <Persona />
-        <br />
-        <AccountPersonas />
+        <hr />
+        <Link to="/account-personas">Account Personas</Link>
       </div>
     );
   }

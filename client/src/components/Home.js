@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import Generation from "./Generation";
 import Persona from "./Persona";
+import AccountInfo from "./AccountInfo";
 
 import { logout } from "../actions/account";
 import { Button } from "react-bootstrap";
@@ -18,6 +19,8 @@ class Home extends Component {
         <h2>Persona Stack from REACT!</h2>
         <Generation />
         <Persona />
+        <hr />
+        <AccountInfo />
         <hr />
         <Link to="/account-personas">Account Personas</Link>
       </div>

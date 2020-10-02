@@ -23,4 +23,14 @@ router.get("/new", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+router.put("/update", (req, res, next) => {
+  const { personaId, nickname } = req.body;
+
+  PersonaTable.updatePersona({ personaId, nickname })
+    .then(() => {
+      res.json({ message: "successfully updated persona" });
+    })
+    .catch((error) => next(error));
+});
+
 module.exports = router;

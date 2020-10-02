@@ -51,6 +51,22 @@ class PersonaTable {
       );
     });
   }
+
+  static updatePersona({ personaId, nickname }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `UPDATE persona SET nickname=$1
+          WHERE id=$2
+          `,
+        [nickname, personaId],
+        (error, response) => {
+          if (error) return reject(error);
+
+          resolve();
+        }
+      );
+    });
+  }
 }
 
 ///////debug

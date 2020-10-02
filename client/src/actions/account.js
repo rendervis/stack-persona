@@ -1,24 +1,28 @@
 import { ACCOUNT } from "./types";
 import { BACKEND } from "../config";
 
-const fetchFromAccount = ({ endpoint, options, SUCCESS_TYPE }) => (
-  dispatch
-) => {
+export const fetchFromAccount = ({
+  endpoint,
+  options,
+  FETCH_TYPE,
+  ERROR_TYPE,
+  SUCCESS_TYPE,
+}) => (dispatch) => {
   dispatch({
-    type: ACCOUNT.FETCH,
+    type: FETCH_TYPE,
   });
   return fetch(`${BACKEND.ADDRESS}/account/${endpoint}`, options)
     .then((response) => response.json())
     .then((json) => {
       // console.log(json);
       if (json.type === "error") {
-        dispatch({ type: ACCOUNT.FETCH_ERROR, message: json.message });
+        dispatch({ type: ERROR_TYPE, message: json.message });
       } else {
         dispatch({ type: SUCCESS_TYPE, ...json });
       }
     })
     .catch((error) => {
-      dispatch({ type: ACCOUNT.FETCH_ERROR, message: error.message });
+      dispatch({ type: ERROR_TYPE, message: error.message });
     });
 };
 
@@ -32,6 +36,8 @@ export const signUpAction = ({ userName, password }) =>
       ///////store Session cookie on the browser
       credentials: "include",
     },
+    FETCH_TYPE: ACCOUNT.FETCH,
+    ERROR_TYPE: ACCOUNT.FETCH_ERROR,
     SUCCESS_TYPE: ACCOUNT.FETCH_SUCCESS,
   });
 export const logout = () =>
@@ -41,6 +47,8 @@ export const logout = () =>
       ///////store Session cookie on the browser
       credentials: "include",
     },
+    FETCH_TYPE: ACCOUNT.FETCH,
+    ERROR_TYPE: ACCOUNT.FETCH_ERROR,
     SUCCESS_TYPE: ACCOUNT.FETCH_LOGOUT_SUCCESS,
   });
 
@@ -54,6 +62,8 @@ export const login = ({ userName, password }) =>
       ///////store Session cookie on the browser
       credentials: "include",
     },
+    FETCH_TYPE: ACCOUNT.FETCH,
+    ERROR_TYPE: ACCOUNT.FETCH_ERROR,
     SUCCESS_TYPE: ACCOUNT.FETCH_SUCCESS,
   });
 
@@ -64,5 +74,7 @@ export const fetchAuthenticated = () =>
       ///////store Session cookie on the browser
       credentials: "include",
     },
+    FETCH_TYPE: ACCOUNT.FETCH,
+    ERROR_TYPE: ACCOUNT.FETCH_ERROR,
     SUCCESS_TYPE: ACCOUNT.FETCH_AUTHENTICATED_SUCCESS,
   });

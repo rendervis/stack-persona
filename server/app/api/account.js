@@ -1,9 +1,11 @@
 const { Router } = require("express");
 const AccountTable = require("../account/table");
+const AccountPersonaTable = require("../accountPersona/table");
 const Session = require("../account/session");
 const { hash } = require("../account/helper");
 
 const { setSession, authenticatedAccount } = require("./helper");
+const { getPersonaWithTraits } = require("../persona/helper");
 
 const router = new Router();
 
@@ -89,4 +91,25 @@ router.get("/authenticated", (req, res, next) => {
   //     .catch((error) => next(error));
   // }
 });
+
+router.get("/personas", (req, res, next) => {
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account }) => {
+      return AccountPersonaTable.getAccountPersonas({
+        accountId: account.id,
+      });
+    })
+    .then(({ accountPersonas }) => {
+      return Promise.all(
+        accountPersonas.map((accountP) => {
+          return getPersonaWithTraits({ personaId: accountP.personaId });
+        })
+      );
+    })
+    .then((personas) => {
+      res.json({ personas });
+    })
+    .catch((error) => next(error));
+});
+
 module.exports = router;

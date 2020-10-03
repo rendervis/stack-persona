@@ -4,6 +4,8 @@ const DEFAULT_PROPERTIES = {
   personaId: undefined,
   nickname: "unnamed",
   generationId: undefined,
+  isPublic: false,
+  saleValue: 0,
   get birthDate() {
     return new Date();
   },
@@ -22,12 +24,22 @@ const DEFAULT_PROPERTIES = {
 };
 
 class Persona {
-  constructor({ personaId, birthDate, nickname, traits, generationId } = {}) {
+  constructor({
+    personaId,
+    birthDate,
+    nickname,
+    traits,
+    generationId,
+    saleValue,
+    isPublic,
+  } = {}) {
     this.personaId = personaId || DEFAULT_PROPERTIES.personaId;
     this.birthDate = birthDate || DEFAULT_PROPERTIES.birthDate;
     this.nickname = nickname || DEFAULT_PROPERTIES.nickname;
     this.traits = traits || DEFAULT_PROPERTIES.randomTraits;
     this.generationId = generationId || DEFAULT_PROPERTIES.generationId;
+    this.saleValue = saleValue || DEFAULT_PROPERTIES.saleValue;
+    this.isPublic = isPublic || DEFAULT_PROPERTIES.isPublic;
   }
 }
 

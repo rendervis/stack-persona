@@ -33,9 +33,32 @@ const getPersonaWithTraits = ({ personaId }) => {
     .catch((error) => console.error(error));
 };
 
+const getPublicPersonas = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `SELECT id FROM persona
+      WHERE "isPublic"=TRUE
+      `,
+      (error, response) => {
+        if (error) return reject(error);
+
+        const publicPersonaRows = response.rows;
+
+        Promise.all(
+          publicPersonaRows.map(({ id }) =>
+            getPersonaWithTraits({ personaId: id })
+          )
+        )
+          .then((personas) => resolve({ personas }))
+          .catch((error) => reject(error));
+      }
+    );
+  });
+};
+
 ///////debug
 // getPersonaWithTraits({ personaId: 47 })
 //   .then((persona) => console.log("persona", persona))
 //   .catch((error) => console.error("error", error));
 
-module.exports = { getPersonaWithTraits };
+module.exports = { getPersonaWithTraits, getPublicPersonas };

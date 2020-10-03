@@ -3,12 +3,13 @@ const PersonaTraitTable = require("../personaTrait/table");
 
 class PersonaTable {
   static storePersona(persona) {
-    const { birthDate, nickname, generationId } = persona;
+    const { birthDate, nickname, generationId, isPublic, saleValue } = persona;
     return new Promise((resolve, reject) => {
       pool.query(
-        `INSERT INTO persona(birthdate,nickname,"generationId") 
-        VALUES($1, $2, $3) RETURNING id`,
-        [birthDate, nickname, generationId],
+        `INSERT INTO 
+        persona(birthdate,nickname,"generationId", "isPublic","saleValue") 
+        VALUES($1, $2, $3, $4, $5) RETURNING id`,
+        [birthDate, nickname, generationId, isPublic, saleValue],
         (error, response) => {
           if (error) return reject(error);
 
@@ -35,7 +36,7 @@ class PersonaTable {
   static getPersona({ personaId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `SELECT birthdate, nickname, "generationId"
+        `SELECT birthdate, nickname, "generationId", "isPublic", "saleValue"
         FROM persona
         WHERE persona.id = $1
         `,
@@ -52,20 +53,42 @@ class PersonaTable {
     });
   }
 
-  static updatePersona({ personaId, nickname }) {
-    return new Promise((resolve, reject) => {
-      pool.query(
-        `UPDATE persona SET nickname=$1
-          WHERE id=$2
-          `,
-        [nickname, personaId],
-        (error, response) => {
-          if (error) return reject(error);
-
-          resolve();
+  static updatePersona({ personaId, nickname, isPublic, saleValue }) {
+    const settingsMap = { nickname, isPublic, saleValue };
+    const validQueries = Object.entries(settingsMap).filter(
+      ([settingKey, settingValue]) => {
+        if (settingValue !== undefined) {
+          return new Promise((resolve, reject) => {
+            pool.query(
+              `UPDATE persona
+           SET "${settingKey}"=$1
+           WHERE id=$2
+           `,
+              [settingValue, personaId],
+              (error, response) => {
+                if (error) return reject(error);
+                resolve();
+              }
+            );
+          });
         }
-      );
-    });
+      }
+    );
+    return Promise.all(validQueries);
+    // return new Promise((resolve, reject) => {
+    //   pool.query(
+    //     `UPDATE persona
+    //     SET nickName=$1, "isPublic"=$2, "saleValue"=$3
+    //       WHERE id=$4
+    //       `,
+    //     [nickName, isPublic, saleValue, personaId],
+    //     (error, response) => {
+    //       if (error) return reject(error);
+
+    //       resolve();
+    //     }
+    //   );
+    // });
   }
 }
 
@@ -73,5 +96,9 @@ class PersonaTable {
 // PersonaTable.getPersona({ personaId: 46 })
 //   .then((persona) => console.log(persona))
 //   .catch((error) => console.log("error", error));
+
+// PersonaTable.updatePersona({ personaId: 1, nickName: "fooby" })
+//   .then(() => console.log("successfully updated persona!"))
+//   .catch((error) => console.error("error", error));
 
 module.exports = PersonaTable;

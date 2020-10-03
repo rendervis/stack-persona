@@ -2,6 +2,7 @@ const { Router } = require("express");
 const PersonaTable = require("../persona/table");
 const AccountPersonaTable = require("../accountPersona/table");
 const { authenticatedAccount } = require("./helper");
+const { getPublicPersonas } = require("../persona/helper");
 
 const router = new Router();
 
@@ -24,11 +25,19 @@ router.get("/new", (req, res, next) => {
 });
 
 router.put("/update", (req, res, next) => {
-  const { personaId, nickname } = req.body;
+  const { personaId, nickname, isPublic, saleValue } = req.body;
 
-  PersonaTable.updatePersona({ personaId, nickname })
+  PersonaTable.updatePersona({ personaId, nickname, isPublic, saleValue })
     .then(() => {
       res.json({ message: "successfully updated persona" });
+    })
+    .catch((error) => next(error));
+});
+
+router.get("/public-personas", (req, res, next) => {
+  getPublicPersonas()
+    .then(({ personas }) => {
+      res.json({ personas });
     })
     .catch((error) => next(error));
 });

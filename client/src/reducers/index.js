@@ -5,6 +5,7 @@ import accountPersonasReducer from "./accountPersonas";
 import generationReducer from "./generation";
 import personaReducer from "./persona";
 import accountInfoReducer from "./accountInfo";
+import publicPersonaReducer from "./publicPersonas";
 
 export default combineReducers({
   account: accountReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   persona: personaReducer,
   accountPersonas: accountPersonasReducer,
   accountInfo: accountInfoReducer,
+  publicPersonas: publicPersonaReducer,
 });

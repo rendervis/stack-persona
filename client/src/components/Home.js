@@ -23,6 +23,8 @@ class Home extends Component {
         <AccountInfo />
         <hr />
         <Link to="/account-personas">Account Personas</Link>
+        <br />
+        <Link to="/public-personas">Public Personas</Link>
       </div>
     );
   }

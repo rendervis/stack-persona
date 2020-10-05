@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 app.use("/account", cors(corsOptions), accountRouter);
 app.use("/generation", cors(corsOptions), generationRouter);
-app.use("/persona", cors(corsOptions), personaRouter);
+app.use("/personas", cors(corsOptions), personaRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

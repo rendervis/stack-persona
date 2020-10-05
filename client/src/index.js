@@ -10,8 +10,11 @@ import rootReducer from "./reducers";
 
 import Root from "./components/Root";
 import AccountPersonas from "./components/AccountPersonas";
+import PublicPersonas from "./components/PublicPersonas";
 import { fetchAuthenticated } from "./actions/account";
 import "./index.css";
+
+import { fetchPublicPersonas } from "./actions/publicPersonas";
 
 const history = createBrowserHistory();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -24,7 +27,7 @@ const store = createStore(
 // const RedirectToAccountPersonas = () => {
 //   return <Redirect to={{ pathname: "/account-personas" }} />;
 // };
-
+store.dispatch(fetchPublicPersonas());
 const AuthRoute = (props) => {
   if (!store.getState().account.loggedIn) {
     return <Redirect to={{ pathname: "/" }} />;
@@ -44,6 +47,7 @@ store.dispatch(fetchAuthenticated()).then(() => {
             path="/account-personas"
             component={AccountPersonas}
           />
+          <AuthRoute path="/public-personas" component={PublicPersonas} />
         </Switch>
       </Router>
     </Provider>,
